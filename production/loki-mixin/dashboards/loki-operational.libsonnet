@@ -110,49 +110,49 @@ local utils = import 'mixin-utils/utils.libsonnet';
                                                              std.strReplace(
                                                                expr,
                                                                'pod=~"querier.*"',
-                                                               matcherStr('querier', matcher='pod', sep='')
+                                                               matcherStr("querier", matcher="pod", sep="")
                                                              ),
                                                              'pod=~"ingester.*"',
-                                                             matcherStr('ingester', matcher='pod', sep='')
+                                                             matcherStr('ingester', matcher="pod", sep="")
                                                            ),
                                                            'pod=~"distributor.*"',
-                                                           matcherStr('distributor', matcher='pod', sep='')
+                                                           matcherStr('distributor', matcher="pod", sep="")
                                                          ),
                                                          'job="$namespace/cortex-gw",',
-                                                         matcherStr('cortexgateway')
+                                                         matcherStr("cortexgateway")
                                                        ),
                                                        'job="$namespace/cortex-gw"',
-                                                       std.rstripChars(matcherStr('cortexgateway'), ',')
+                                                       std.rstripChars(matcherStr("cortexgateway"), ",")
                                                      ),
                                                      'job=~"($namespace)/cortex-gw",',
-                                                     matcherStr('cortexgateway')
+                                                     matcherStr("cortexgateway")
                                                    ),
                                                    'job="$namespace/distributor",',
                                                    matcherStr('distributor')
                                                  ),
                                                  'job="$namespace/distributor"',
-                                                 std.rstripChars(matcherStr('distributor'), ',')
+                                                 std.rstripChars(matcherStr('distributor'), ",")
                                                ),
                                                'job=~"($namespace)/distributor",',
                                                matcherStr('distributor')
                                              ),
                                              'job=~"($namespace)/distributor"',
-                                             std.rstripChars(matcherStr('distributor'), ',')
+                                             std.rstripChars(matcherStr('distributor'), ",")
                                            ),
                                            'job="$namespace/ingester",',
                                            matcherStr('ingester')
                                          ),
                                          'job="$namespace/ingester"',
-                                         std.rstripChars(matcherStr('ingester'), ',')
+                                         std.rstripChars(matcherStr('ingester'), ",")
                                        ),
                                        'job=~"($namespace)/ingester",',
                                        matcherStr('ingester'),
                                      ),
                                      'job="$namespace/querier",',
-                                     matcherStr('querier')
+                                     matcherStr("querier")
                                    ),
                                    'job="$namespace/querier"',
-                                   std.rstripChars(matcherStr('querier'), ',')
+                                   std.rstripChars(matcherStr("querier"), ",")
                                  ),
 
 
