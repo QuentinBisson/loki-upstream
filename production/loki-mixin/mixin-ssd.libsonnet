@@ -6,6 +6,12 @@
   _config+:: {
     internal_components: false,
 
+    per_cluster_label: 'cluster_label',
+
+    canary+: {
+      enabled: true,
+    },
+
     // By default the helm chart uses the Grafana Agent instead of promtail
     promtail+: {
       enabled: false,
