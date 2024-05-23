@@ -157,7 +157,8 @@ local utils = import 'mixin-utils/utils.libsonnet';
             $.containerDiskSpaceUtilizationPanel('Disk Space Utilization', 'bloom-gateway'),
           )
         )
-        .addRow(
+        .addRowIf(
+          !$._config.ssd.enabled,
           $.row('Ingester')
           .addPanel(
             $.CPUUsagePanel('CPU', ingester_pod_matcher),

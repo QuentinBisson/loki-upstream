@@ -1602,7 +1602,7 @@
             "repeatIteration": null,
             "repeatRowId": null,
             "showTitle": true,
-            "title": "BoltDB Shipper",
+            "title": "BoltDB Index",
             "titleSize": "h6"
          }
       ],

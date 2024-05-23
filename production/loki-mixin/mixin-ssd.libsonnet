@@ -1,4 +1,5 @@
 (import 'dashboards.libsonnet') +
+(import 'dashboards/loki-backends-resources.libsonnet') +
 (import 'alerts.libsonnet') +
 (import 'recording_rules.libsonnet') + {
   grafanaDashboardFolder: 'Loki SSD',

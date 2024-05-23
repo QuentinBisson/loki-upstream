@@ -78,7 +78,7 @@ local utils = import 'mixin-utils/utils.libsonnet';
                         )
                         .addRowIf(
                           $._config.tsdb,
-                          $.row(if $._config.ssd.enabled then 'Write Path' else 'Distributor - Structured Metadata')
+                          $.row(if $._config.ssd.enabled then 'Write Path - Structured Metadata' else 'Distributor - Structured Metadata')
                           .addPanel(
                             $.newQueryPanel('Per Total Received Bytes') +
                             $.queryPanel('sum (rate(loki_distributor_structured_metadata_bytes_received_total{%s}[$__rate_interval])) / sum(rate(loki_distributor_bytes_received_total{%s}[$__rate_interval]))' % [dashboards['loki-writes.json'].distributorSelector, dashboards['loki-writes.json'].distributorSelector], 'bytes')
@@ -152,8 +152,9 @@ local utils = import 'mixin-utils/utils.libsonnet';
                             )
                           )
                         )
-                        .addRow(
-                          $.row('BoltDB Shipper')
+                        .addRowIf(
+                          !$._config.ssd.enabled,
+                          $.row('BoltDB Index')
                           .addPanel(
                             $.newQueryPanel('QPS') +
                             $.newQpsPanel('loki_boltdb_shipper_request_duration_seconds_count{%s operation="WRITE"}' % dashboards['loki-writes.json'].ingesterSelector)
