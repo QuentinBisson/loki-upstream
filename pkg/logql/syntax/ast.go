@@ -318,9 +318,14 @@ func (e *PipelineExpr) Pipeline() (log.Pipeline, error) {
 // HasFilter returns true if the pipeline contains stage that can filter out lines.
 func (e *PipelineExpr) HasFilter() bool {
 	for _, p := range e.MultiStages {
-		switch p.(type) {
-		case *LineFilterExpr, *LabelFilterExpr:
+		switch v := p.(type) {
+		case *LabelFilterExpr:
 			return true
+		case *LineFilterExpr:
+			// ignore empty matchers as they match everything
+			if !((v.Ty == log.LineMatchEqual || v.Ty == log.LineMatchRegexp) && v.Match == "") {
+				return true
+			}
 		default:
 			continue
 		}
@@ -366,14 +371,6 @@ func newLineFilterExpr(ty log.LineMatchType, op, match string) *LineFilterExpr {
 func newOrLineFilter(left, right *LineFilterExpr) *LineFilterExpr {
 	right.Ty = left.Ty
 
-	if left.Ty == log.LineMatchEqual || left.Ty == log.LineMatchRegexp || left.Ty == log.LineMatchPattern {
-		left.Or = right
-		right.IsOrChild = true
-		return left
-	}
-
-	// !(left or right) == (!left and !right).
-
 	// NOTE: Consider, we have chain of "or", != "foo" or "bar" or "baz"
 	// we parse from right to left, so first time left="bar", right="baz", and we don't know the actual `Ty` (equal: |=, notequal: !=, regex: |~, etc). So
 	// it will have default (0, LineMatchEqual).
@@ -385,6 +382,13 @@ func newOrLineFilter(left, right *LineFilterExpr) *LineFilterExpr {
 		tmp = tmp.Or
 	}
 
+	if left.Ty == log.LineMatchEqual || left.Ty == log.LineMatchRegexp || left.Ty == log.LineMatchPattern {
+		left.Or = right
+		right.IsOrChild = true
+		return left
+	}
+
+	// !(left or right) == (!left and !right).
 	return newNestedLineFilterExpr(left, right)
 }
 
